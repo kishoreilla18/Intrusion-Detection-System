@@ -1,0 +1,53 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .EDA-container {
+        margin: 20px auto; /* center horizontally */
+        max-width: 900px; /* limit width on large screens */
+        width: 100%;
+        text-align: center; /* center text inside */
+        border: 1px solid #ddd; /* light border */
+        border-radius: 10px; /* rounded corners */
+        box-shadow: 0 6px 8px rgba(0,0,0,0.1); /* soft shadow */
+        padding: 30px;
+        background: #fff; /* clean background */
+        margin-top: 100px;
+        margin-left: 380px;
+    }
+    .EDA-container p {
+        font-family: 'Poppins', sans-serif;  /* modern clean font */
+        font-size: 25px;
+        font-weight: 800;
+        color: #333;  /* dark gray for readability */
+        margin-bottom: 15px;
+    }
+
+    .EDA-container img {
+        max-width: 100%;   /* responsive image */
+        height: auto;
+        border-radius: 8px; /* optional, for smooth look */
+    }
+
+    /* Mobile specific */
+    @media (max-width: 768px) {
+        .EDA-container {
+            padding: 15px;
+            margin: 10px auto;
+            margin-top: 130px;
+            border: 1px solid #ddd; /* light border */
+            border-radius: 10px; /* rounded corners */
+            box-shadow: 0 6px 8px rgba(0,0,0,0.1);
+        }
+        .EDA-container p {
+            font-size: 20px; /* smaller text on mobile */
+        }
+    }
+</style>
+
+<div class="EDA-container">
+    <p>Corelation Heatmap of Numeric Features</p>
+    <img src="{% static "img/corelation_features_img.png" %}" alt="corelation_features_img">
+</div>
+{% endblock content %}

@@ -1,0 +1,69 @@
+{% extends "baseadmin.html" %}
+{% block content %}
+  <style>
+    .container {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+      margin-top: 50px;
+      padding: 30px;
+    }
+    .notebook-cell {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .cell-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .cell-code {
+      background: #eceef0ff;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .cell-output {
+      background: #fff;
+      border-left: 4px solid #4caf50;
+      padding: 10px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .cell-description {
+      font-size: 14px;
+      margin-top: 8px;
+      color: #555;
+    }
+
+    @media (max-width: 991.98px) {
+        .container {
+        margin: 0; 
+        margin-top: 180px;             /* Remove margins */
+        padding: 20px;          /* Add some breathing space */
+        width: 100% !important; /* Ensure it takes full width */
+        max-width: 100%;        /* Prevent Bootstrap max-width */
+        }
+    }
+  </style>
+
+    <div class="container">
+        {% comment %} data overview {% endcomment %}
+        <h2 class="mb-4">📊 Dataset Overview</h2>
+
+        {% for card in cards %}
+        <div class="notebook-cell">
+            <div class="cell-title">{{ card.title }}</div>
+            <div class="cell-code">>>> {{ card.code }}</div>
+            <div class="cell-output">{{ card.output }}</div>
+            <div class="cell-description">{{ card.description }}</div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

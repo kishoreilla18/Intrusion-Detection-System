@@ -1,0 +1,56 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="card shadow-sm rounded-lg p-5 bg-white">
+
+    <!-- Title -->
+    <h2 class="text-center fw-bold mb-4" style="color:#2c3e50;">
+        {{ name }} Algorithm Result
+    </h2>
+    
+
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-borderless text-center align-middle">
+            <thead class="border-bottom">
+                <tr style="color:#34495e; font-weight:600;">
+                    <th>S.NO</th>
+                    <th>TASK</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-bottom">
+                    <td>1</td>
+                    <td>Name of Algorithm</td>
+                    <td class="fw-semibold">{{ name }}</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td>2</td>
+                    <td>Accuracy</td>
+                    <td>{{ accuracy }}%</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td>3</td>
+                    <td>Precision</td>
+                    <td>{{ precision }}</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td>4</td>
+                    <td>F1 Score</td>
+                    <td>{{ f1 }}</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Recall</td>
+                    <td>{{ recall }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock content %}

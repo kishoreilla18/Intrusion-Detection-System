@@ -1,0 +1,52 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+
+
+    <div class="container " style="margin-top: 120px;">
+        <h3 class="page-title"> View Datasets</h3>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle text-center">
+                <thead class="table-success">
+                    <tr>
+                        <th>#</th>
+                        <th>File Name</th>
+                        <th>Size</th>
+                        <th>Type</th>
+                        <th>Uploaded On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in dataset %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.dataset}}</td>
+                        <td>{{i.file_size}}</td>
+                        <td>{{i.file_type}}</td>
+                        <td>{{i.uploaded_at}}</td>
+                        <td class="text-end">
+                            <a href="{% url 'datasetresults' i.s_no %}"><button class="btn-approve btn-success btn-sm"><i class="bi bi-eye"></i> View</button></a>
+                            <a href="{% url 'deletedataset' i.s_no %}"><button class="btn-reject btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button></a>
+                        </td> 
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination Buttons -->
+        <div class="d-flex justify-content-between mt-3">
+            <button class="btn btn btn-sm">&laquo; Previous</button>
+            <button class="btn btn btn-sm">Next &raquo;</button>
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+
+
+
+

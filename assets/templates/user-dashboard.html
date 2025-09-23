@@ -1,0 +1,115 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+{% block content %}
+  <style>
+    .overview-box {
+      background: #fff;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .overview-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    .overview-box a {
+      font-weight: bold;
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .overview-box a:hover {
+      color: #c68c2c;
+    }
+  </style>
+
+  <!-- ======= Overview Section ======= -->
+  <section class="overview-section py-5">
+    <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Project Overview</h2>
+        <p>Our IDS uses machine learning, real-world datasets, and smart alerting to detect and respond to threats in real-time with high accuracy.</p>
+      </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up">
+      <div class="row text-center">
+        <!-- Random Forest Algorithm -->
+        <div class="col-lg-3 col-md-6 col-6 mb-4">
+          <div class="overview-box p-4 shadow-sm h-100">
+            <div class="icon mb-3" style="background:var(--accent-color); padding:15px; display:inline-block; border-radius:5px;">
+              <i class="fas fa-project-diagram fa-2x text-white"></i>
+            </div>
+            <h5 class="fw-bold">Random Forest Algorithm</h5>
+            <p>Powerful machine learning model to detect intrusions with high accuracy.</p> 
+          </div>
+        </div>
+
+        <!-- Accuracy -->
+        <div class="col-lg-3 col-md-6 col-6 mb-4">
+          <div class="overview-box p-4 shadow-sm h-100">
+            <div class="icon mb-3" style="background:var(--accent-color); padding:15px; display:inline-block; border-radius:5px;">
+              <i class="fas fa-chart-line fa-2x text-white"></i>
+            </div>
+            <h5 class="fw-bold">Accuracy</h5>
+            <p>
+              Achieved up to <b>99.98%</b> accuracy in detecting attacks.
+            </p>
+            
+          </div>
+        </div>
+
+        <!-- Datasets -->
+        <div class="col-lg-3 col-md-6 col-6 mb-4">
+          <div class="overview-box p-4 shadow-sm h-100">
+            <div class="icon mb-3" style="background:var(--accent-color); padding:15px; display:inline-block; border-radius:5px;">
+              <i class="fas fa-database fa-2x text-white"></i>
+            </div>
+            <h5 class="fw-bold">Datasets</h5>
+            <p>Our IDS is trained on <b>127,943 real-world traffic records</b>, ensuring high accuracy and reliability.</p>
+            
+          </div>
+        </div>
+
+        <!-- High-Severity Alerts -->
+        <div class="col-lg-3 col-md-6 col-6 mb-4">
+          <div class="overview-box p-4 shadow-sm h-100">
+            <div class="icon mb-3" style="background:var(--accent-color); padding:15px; display:inline-block; border-radius:5px;">
+              <i class="fas fa-exclamation-triangle fa-2x text-white"></i>
+            </div>
+            <h5 class="fw-bold">High-Severity Alerts</h5>
+            <p>Instant detection and reporting of critical network threats.</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Overview Section -->
+
+  <!-- FontAwesome for icons -->
+  <script src="https://kit.fontawesome.com/1ad2811ffc.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    {% if messages %}
+      {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+          <script>
+            swal({ title: 'Success!', text: '{{ message }}', icon: 'success', button: 'OK' })
+          </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+          <script>
+            swal({ title: 'Warning!', text: '{{ message }}', icon: 'warning', button: 'OK' })
+          </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+          <script>
+            swal({ title: 'Info!', text: '{{ message }}', icon: 'info', button: 'OK' })
+          </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+          <script>
+            swal({ title: 'Error!', text: '{{ message }}', icon: 'error', button: 'OK' })
+          </script>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+{% endblock %}

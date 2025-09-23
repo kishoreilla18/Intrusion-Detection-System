@@ -1,0 +1,32 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+
+
+    <!-- body -->
+    <div class="container " style="margin-top: 120px;">
+        <h3 class="page-title"> View Dataset Results</h3>
+
+        <div class="table-responsive">
+            
+            <table class="table table-bordered table-hover align-middle text-center">
+               {{dataset}}
+                <tbody>
+                    {{t | safe  }}
+                </tbody>
+            </table>
+            <h5>Sample 50 rows from Dataset</h5>
+        </div>
+        
+    </div>
+
+
+
+{% endblock content %}
+
+
+
+
+
+

@@ -1,0 +1,216 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+{% block content %}
+  <style>
+    .detection-section {
+      background-color: #f8f5fc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    
+    .detection-container {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+      max-width: 1100px;
+      width: 100%;
+      padding: 30px;
+    }
+    
+    .detection-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 25px;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .form-control,
+    .form-select {
+      border-radius: 8px;
+      box-shadow: none;
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+      transition: 0.2s ease-in-out;
+    }
+    
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0px 0px 6px rgba(100, 0, 200, 0.2);
+    }
+    
+    .btn-predict {
+      background: var(--accent-color);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 10px 20px;
+      width: 100%;
+      transition: 0.3s;
+    }
+    
+    .btn-predict:hover {
+      color: #fff;
+      background: #d56b6dff;
+    }
+    
+    .image-box img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    @media (max-width: 768px) {
+      .detection-container {
+        padding: 20px;
+      }
+      .image-box {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+  <section style="background: url('{% static "img/hacker_img.jpg" %}') center center/cover no-repeat; 
+                position: relative; 
+                padding: 80px 0; 
+                text-align: center; 
+                color: #fff;" >
+  
+        <!-- Dark overlay -->
+        <div style="position: absolute; 
+                    top: 0; left: 0; 
+                    width: 100%; height: 100%; 
+                    background: rgba(0, 0, 0, 0.6);"></div>
+        
+        <div style="position: relative; z-index: 2;">
+            <h2 style="font-size: 42px; font-weight: 700; margin-bottom: 10px; color: #fff;">Detection</h2>
+            <p style="margin: 0; font-size: 16px;">
+            <a href="{% url 'home' %}" style="color: #fff; text-decoration: none;">Dashboard</a> 
+            
+            <span style="margin: 0 5px;">/</span> 
+            <a href="{% url 'detection' %}"><span style="color: #d91e1eff; font-weight: 500;">Detection</span></a>
+            </p>
+        </div>
+    </section>
+
+  <section class="detection-section" data-aos="fade-up">
+    <div class="container detection-container">
+      <div class="row align-items-center">
+        <!-- Left Side Image -->
+        <div class="col-md-5 image-box">
+          <img src="{% static 'img/detection_img.jpg' %}" alt="Intrusion Detection" />
+        </div>
+
+        <!-- Right Side Form -->
+        <div class="col-md-7">
+          <h3 class="detection-title">Enter Details for Detection</h3>
+          <form method="POST" action="{% url 'detection' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Duration (sec)</label>
+                <input type="number" class="form-control" name="duration" placeholder="Duration in seconds" required />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Protocol Type</label>
+                <select class="form-select" name="protocol" required>
+                  <option selected disabled hidden>Select</option>
+                  <option value="0">ICMP</option>
+                  <option value="1">TCP</option>
+                  <option value="2">UDP</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Service</label>
+                <input type="number" class="form-control" name="service" placeholder="0-70" required />
+                {% comment %} <select class="form-select" name="service" required>
+                  <option value="">Select</option>
+                  <option value="http">HTTP</option>
+                  <option value="ftp">FTP</option>
+                  <option value="smtp">SMTP</option>
+                  <option value="dns">DNS</option>
+                  <option value="ssh">SSH</option>
+                  <option value="telnet">Telnet</option>
+                  <option value="other">Other</option>
+                </select> {% endcomment %}
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Flag</label>
+                <select class="form-select" name="flag" required>
+                  <option selected disabled hidden>Select</option>
+                  <option value="1">REJ (rejected connection)</option>
+                  <option value="2">SH (half connection)</option>
+                  <option value="3">RSTO (reset sent, no response)</option>
+                  <option value="4">RSTOS0 (reset with no connection)</option>
+                  <option value="5">RSTR (connection reset)</option>
+                  <option value="6">S0 (connection attempt seen, no reply)</option>                             
+                  <option value="7">S1 (connection established, 1 response)</option>
+                  <option value="8">S2 (connection established, 2 responses)</option>
+                  <option value="9">S3 (connection established, 3 responses)</option>
+                  <option value="10">SF (normal connection)</option>
+                  <option value="0">Other</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">src_bytes</label>
+                <input type="number" class="form-control" name="src_bytes" placeholder="Bytes sent" required />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">dst_bytes</label>
+                <input type="number" class="form-control" name="dst_bytes" placeholder="Bytes received" required />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Count</label>
+                <input type="number" class="form-control" name="count" placeholder="Connections count" required />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">srv_count</label>
+                <input type="number" class="form-control" name="srv_count" placeholder="Service connections count" required />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Serror Rate</label>
+                <input type="number" step="0.01" class="form-control" name="serror_rate" placeholder="0.0 - 1.0" required />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">srv_serror_rate</label>
+                <input type="number" step="0.01" class="form-control" name="srv_serror_rate" placeholder="0.0 - 1.0" required />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">dst_host_same_srv_rate</label>
+                <input type="number" step="0.01" class="form-control" name="dst_host_same_srv_rate" placeholder="0.0 - 1.0" required />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">dst_host_serror_rate</label>
+                <input type="number" step="0.01" class="form-control" name="dst_host_serror_rate" placeholder="0.0 - 1.0" required />
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <button type="submit" class="btn btn-predict">Detect</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

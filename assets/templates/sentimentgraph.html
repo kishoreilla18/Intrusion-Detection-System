@@ -1,0 +1,122 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+
+{% block content %}
+    <style>
+        /* table */
+      .graph-container {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        margin-left: 300px;
+        margin-top: 100px;
+      }
+      
+      h2 {
+        text-align: center;
+        font-size: 22px;
+        color: #556677;
+        margin-bottom: 10px;
+      }
+      
+      hr {
+        border: none;
+        height: 2px;
+        background: #000;
+        margin: 0 0 20px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 991.98px) {
+        .sidebar {
+          transform: translateX(-100%);
+          width: 240px;
+          padding-top: 56px;
+        }
+      
+        .sidebar.show {
+          transform: translateX(0);
+        }
+      
+        .navbar-brand1 {
+          font-size: 0;
+        }
+      
+        .graph-container {
+          margin-left: 20px;
+          margin-top: 150px;
+        }
+      
+        .content,
+        .navbar,
+        .container {
+          margin-left: 0 !important;
+          width: 100% !important;
+        }
+      }
+    </style>
+
+    <!-- body -->
+    <div class="graph-container">
+      <h2>Sentiment Analysis Graph</h2>
+      <hr />
+      <canvas id="sentimentChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('sentimentChart').getContext('2d');
+
+        const sentimentChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels: [
+                'Very Positive',
+                'Positive',
+                'Neutral',
+                'Negative',
+                'Very Negative'
+            ],
+            datasets: [
+                {
+                label: 'Feedback Count',
+                data: [
+  {{ sentiment_counts.very_positive|default:0 }},
+  {{ sentiment_counts.positive|default:0 }},
+  {{ sentiment_counts.neutral|default:0 }},
+  {{ sentiment_counts.negative|default:0 }},
+  {{ sentiment_counts.very_negative|default:0 }}
+],
+                backgroundColor: [
+                    'rgba(118, 224, 230, 0.51)',
+                    'rgba(110, 189, 226, 0.55)',
+                    'rgba(52, 217, 110, 0.54)',
+                    'rgba(223, 50, 50, 0.57)',
+                    'rgba(255, 0, 0, 0.55)'
+                ],
+                borderColor: 'rgba(0, 0, 0, 0.8)',
+                borderWidth: 1
+                }
+            ]
+            },
+            options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true },
+                tooltip: { enabled: true }
+            },
+            scales: {
+                y: {
+                beginAtZero: true,
+                ticks: { stepSize: 1 }
+                }
+            }
+            }
+        });
+    </script>
+
+
+{% endblock content %}

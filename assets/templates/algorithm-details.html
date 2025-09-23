@@ -1,0 +1,18 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+
+
+    <!-- body -->
+    <div class="card">
+        <h2>{{title}}</h2>
+        <p>
+            {{description}}
+        </p>
+
+        <a href="{% url link %}" class="btn">Check Results</a>
+    </div>
+
+
+{% endblock content %}

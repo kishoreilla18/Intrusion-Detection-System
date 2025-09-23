@@ -1,0 +1,92 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+    <style>
+        /* upload */
+      .upload-card {
+        max-width: 600px;
+        margin: 120px auto;
+        margin-left: 280px;
+        padding: 30px;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 10px 16px 15px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .upload-box {
+        border: 2px dashed #098149;
+        border-radius: 10px;
+        padding: 40px;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      
+      .upload-box:hover {
+        background: #f3f2ff;
+      }
+      
+      .file-label {
+        font-weight: 500;
+        color: #098149;
+        cursor: pointer;
+      }
+      
+      .dataset-info {
+        margin-top: 25px;
+        display: none;
+      }
+      
+      .dataset-info table {
+        font-size: 0.9rem;
+      }
+      /* Responsive */
+      @media (max-width: 991.98px) {
+        .upload-card {
+          max-width: 600px;
+          
+          margin-left: 70px;
+          margin-top: 190px;
+          padding: 30px;
+          border-radius: 12px;
+          background: #fff;
+          box-shadow: 10px 16px 15px 10px rgba(0, 0, 0, 0.1);
+        }
+      
+        .content,
+        .navbar,
+        .container {
+          margin-left: 0 !important;
+          width: 100% !important;
+        }
+      }
+    </style>
+
+    <div class="container">
+      <div class="upload-card">
+        <form method="POST" action="{% url 'uploaddata' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <h4 class="text-center mb-4">Upload Dataset</h4>
+
+          <!-- Upload Box -->
+          <div class="upload-box" >
+            <p class="mb-2">Drag & Drop your dataset here</p>
+            <p class="text-muted">or</p>
+            
+            <label for="datasetInput" class="file-label">Choose File</label>
+            <input type="file" id="datasetInput" name="file" class="d-none" accept=".csv,.xlsx,.json" />
+          </div>
+
+          <!-- Upload Button -->
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn px-4" id="uploadBtn">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+{% endblock content %}
+
+
+

@@ -1,0 +1,158 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+    <style>
+        /* Content area */
+      .container1 {
+        margin-left: 260px;
+        margin-top: 80px;
+        width: calc(100% - 250px);
+        transition: margin-left 0.25s ease;
+      }
+      
+      .page-header {
+        margin: 20px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #198754;
+      }
+      
+      .card1 {
+        border-radius: 12px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Table Styling */
+      .table {
+        font-size: 0.9rem;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      
+      .table thead {
+        background-color: #198754;
+        color: white;
+      }
+      
+      .table tbody tr:hover {
+        background-color: #f1f3f5;
+      }
+      
+      .badge-soft {
+        background-color: rgba(25, 135, 84, 0.15);
+        color: #198754;
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+      .badge-hard {
+        background-color: rgba(214, 158, 158, 0.15);
+        color: #ff0000ff;
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+      .badge-pending {
+        background-color: rgba(206, 184, 153, 0.15);
+        color: #e67e10ff;
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 991.98px) {
+        .sidebar {
+          transform: translateX(-100%);
+          width: 240px;
+          padding-top: 56px;
+        }
+      
+        .sidebar.show {
+          transform: translateX(0);
+        }
+      
+        .navbar-brand1 {
+          font-size: 0;
+        }
+      
+        .content,
+        .navbar,
+        .container1 {
+          margin-left: 0 !important;
+          width: 100% !important;
+        }
+      }
+    </style>
+
+    <!-- Page Container -->
+    <div class="container1">
+      <div class="page-header">
+        <h2 class="fw-bold text-success">All Users</h2>
+        <p class="text-muted">View all user registrations.</p>
+      </div>
+
+      <!-- Pending Users Table -->
+      <div class="card1 p-3">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-success">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Date Requested</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in page_obj %}
+                <tr>
+                  <th scope="row">{{ forloop.counter|add:page_obj.start_index }}</th>
+                  <td>{{ i.user_name }}</td>
+                  <td>{{ i.user_email }}</td>
+                  <td>{{ i.user_contact }}</td>
+                  <td>{{ i.datetime }}</td>
+                  {% if i.status == 'accepted' %}
+                    <td>
+                      <span class="badge badge-soft">{{ i.status }}</span>
+                    </td>
+                  {% elif i.status == 'pending' %}
+                    <td>
+                      <span class="badge badge-pending">{{ i.status }}</span>
+                    </td>
+                  {% else %}
+                    <td>
+                      <span class="badge badge-hard">{{ i.status }}</span>
+                    </td>
+                  {% endif %}
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="4" class="text-center">No feedback available</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-between mt-3">
+            {% if page_obj.has_previous %}
+              <a class="btn btn btn-sm" href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
+            {% else %}
+              <button class="btn btn-secondary btn-sm" disabled>&laquo; Previous</button>
+            {% endif %}
+
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+              <a class="btn btn btn-sm" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+            {% else %}
+              <button class="btn btn-secondary btn-sm" disabled>Next &raquo;</button>
+            {% endif %}
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+{% endblock content %}

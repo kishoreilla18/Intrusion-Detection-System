@@ -1,0 +1,156 @@
+{% extends "base2.html" %}
+{%load static%}
+
+{% block content %}
+<style>
+    .feedback-container {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .feedback-card {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .stars i {
+      font-size: 2rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .stars i.active {
+      color: #f6c700;
+    }
+    .btn {
+      display: flex;
+      justify-self: center;
+
+    }
+</style>
+    <section style="background: url('{% static "img/hacker_img.jpg" %}') center center/cover no-repeat; 
+                position: relative; 
+                padding: 80px 0; 
+                text-align: center; 
+                color: #fff;">
+  
+        <!-- Dark overlay -->
+        <div style="position: absolute; 
+                    top: 0; left: 0; 
+                    width: 100%; height: 100%; 
+                    background: rgba(0, 0, 0, 0.6);"></div>
+        
+        <div style="position: relative; z-index: 2;">
+            <h2 style="font-size: 42px; font-weight: 700; margin-bottom: 10px; color: #fff;">Feedback</h2>
+            <p style="margin: 0; font-size: 16px;">
+            <a href="{% url 'user_dashboard' %}" style="color: #fff; text-decoration: none;">Dashboard</a> 
+            
+            <span style="margin: 0 5px;">/</span> 
+            <a href="{% url 'userfeedback' %}"><span style="color: #d91e1eff; font-weight: 500;">Feedback</span></a>
+            </p>
+        </div>
+    </section>
+
+<div class="container feedback-container py-5" data-aos="fade-up">
+    
+  <div class="row">
+    <!-- Section Title -->
+      <div class="container section-title" >
+        <h2>Contact</h2>
+        <p>Drop us Message for any Query</p>
+      </div><!-- End Section Title -->
+    <!-- Left Side: GIF -->
+    <div class="col-md-6 d-flex justify-content-center align-items-center mb-4 mb-md-0">
+      <img src="https://cdnl.iconscout.com/lottie/premium/thumb/customer-feedback-4733544-3938564.gif"
+           alt="Feedback GIF"
+           class="img-fluid rounded">
+    </div>
+    
+    <!-- Right Side: Feedback Form -->
+    <div class="col-md-6">
+      <div class="feedback-card p-4 shadow-sm rounded bg-white">
+        <h3 class="text-center mb-4" style="color: black;">Feedback</h3>
+        
+        <!-- Feedback Form -->
+        <form method="POST" action="{% url 'userfeedback' %}">
+          {% csrf_token %}
+          
+          <!-- Stars -->
+          <div class="stars text-center mb-3" id="starContainer">
+            <i class="bi bi-star" data-value="1"></i>
+            <i class="bi bi-star" data-value="2"></i>
+            <i class="bi bi-star" data-value="3"></i>
+            <i class="bi bi-star" data-value="4"></i>
+            <i class="bi bi-star" data-value="5"></i>
+          </div>
+          <!-- Hidden input for rating -->
+          <input type="hidden" name="stars" id="ratingInput">
+          
+          <!-- Textarea -->
+          <div class="mb-3">
+            <textarea class="form-control" name="review" rows="6" placeholder="Write your feedback..."></textarea>
+          </div>
+          
+          <!-- Button -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-danger">
+              Send Feedback
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+<script>
+    const stars = document.querySelectorAll("#starContainer i");
+    const ratingInput = document.getElementById("ratingInput");
+
+    stars.forEach(star => {
+      star.addEventListener("click", () => {
+        const value = star.getAttribute("data-value");
+        ratingInput.value = value;
+
+        stars.forEach(s => {
+          if (s.getAttribute("data-value") <= value) {
+            s.classList.add("active");
+            s.classList.replace("bi-star", "bi-star-fill");
+          } else {
+            s.classList.remove("active");
+            s.classList.replace("bi-star-fill", "bi-star");
+          }
+        });
+      });
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    {% if messages %}
+      {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+          <script>
+            swal({ title: 'Success!', text: '{{ message }}', icon: 'success', button: 'OK' })
+          </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+          <script>
+            swal({ title: 'Warning!', text: '{{ message }}', icon: 'warning', button: 'OK' })
+          </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+          <script>
+            swal({ title: 'Info!', text: '{{ message }}', icon: 'info', button: 'OK' })
+          </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+          <script>
+            swal({ title: 'Error!', text: '{{ message }}', icon: 'error', button: 'OK' })
+          </script>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+{% endblock content %}

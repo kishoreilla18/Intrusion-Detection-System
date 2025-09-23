@@ -1,0 +1,364 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+{% block content %}
+  <section style="background: url('{% static "img/hacker_img.jpg" %}') center center/cover no-repeat; 
+                position: relative; 
+                padding: 80px 0; 
+                text-align: center; 
+                color: #fff;" >
+  
+        <!-- Dark overlay -->
+        <div style="position: absolute; 
+                    top: 0; left: 0; 
+                    width: 100%; height: 100%; 
+                    background: rgba(0, 0, 0, 0.6);"></div>
+        
+        <div style="position: relative; z-index: 2;">
+            <h2 style="font-size: 42px; font-weight: 700; margin-bottom: 10px; color: #fff;">Detection Result</h2>
+            <p style="margin: 0; font-size: 16px;">
+            <a href="{% url 'home' %}" style="color: #fff; text-decoration: none;">Dashboard</a> 
+            <span style="margin: 0 5px;">/</span> 
+            <a href="{% url 'detection_page' %}" style="color: #fff; text-decoration: none;">Detection</a>    
+            <span style="margin: 0 5px;">/</span> 
+            <a href="{% url 'detection_result' %}"><span style="color: #d91e1eff; font-weight: 500;">Detection Result</span></a>
+            </p>
+        </div>
+    </section>
+
+
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8 col-sm-12">
+        <!-- Card -->
+        <div class="card shadow-lg border-0 rounded-4 text-center p-4">
+          <h2 class="fw-bold mb-3 text-danger">🔍 Detection Result</h2>
+          <p class="text-muted mb-4">The system analyzed your input and here is the prediction outcome:{{ context }}</p>
+            
+          {% if prediction_result == 1 %}
+          <h4 class="fw-bold mb-3 text-success">No Attack Detected</h4>
+            <div class="alert alert-success py-4 rounded-3">
+              ✅ <strong>Normal Traffic</strong><br />
+              No intrusion detected in this activity.
+            </div>
+            <h3 style="color:#2c3e50; font-weight:700; font-size:22px; margin-bottom:10px;">
+                Algorithm Used: <span style="color:black;">Random Forest Classifier</span>
+            </h3>
+            <h4 style="color:#34495e; font-weight:600; font-size:20px; margin-top:5px;">
+                Accuracy: <span style="color:black">99.96%</span>
+            </h4>
+          {% elif prediction_result == 0 %}
+            <h3 class="fw-bold mb-3 text-danger" 
+              style="font-size:1.5rem; display:inline-block; animation: slowBlink 1s infinite;">
+              Attack Detected
+            </h3>
+            <div class="alert alert-danger py-4 rounded-3">
+              ⚠️ <strong>Denial of Service (DoS) Attack</strong><br />
+            </div>
+            <h3 style="color:#2c3e50; font-weight:700; font-size:22px; margin-bottom:10px;">
+                Algorithm Used: <span style="color:black;">Random Forest Classifier</span>
+            </h3>
+            <h4 style="color:#34495e; font-weight:600; font-size:20px; margin-top:5px;">
+                Accuracy: <span style="color:black">99.96%</span>
+            </h4>
+          {% elif prediction_result == 2 %}
+            <h3 class="fw-bold mb-3 text-danger" 
+              style="font-size:1.5rem; display:inline-block; animation: slowBlink 1s infinite;">
+              Attack Detected
+            </h3>
+            <div class="alert alert-danger py-4 rounded-3">
+              ⚠️ <strong>Probe Attack</strong><br />
+            </div>
+            <h3 style="color:#2c3e50; font-weight:700; font-size:22px; margin-bottom:10px;">
+                Algorithm Used: <span style="color:black;">Random Forest Classifier</span>
+            </h3>
+            <h4 style="color:#34495e; font-weight:600; font-size:20px; margin-top:5px;">
+                Accuracy: <span style="color:black">99.96%</span>
+            </h4>
+          {% elif prediction_result == 3 %}
+            <h3 class="fw-bold mb-3 text-danger" 
+              style="font-size:1.5rem; display:inline-block; animation: slowBlink 1s infinite;">
+              Attack Detected
+            </h3>
+            <div class="alert alert-danger py-4 rounded-3">
+              ⚠️ <strong>Remote-to-Local (R2L) Attack</strong><br />
+            </div>
+            <h3 style="color:#2c3e50; font-weight:700; font-size:22px; margin-bottom:10px;">
+                Algorithm Used: <span style="color:black;">Random Forest Classifier</span>
+            </h3>
+            <h4 style="color:#34495e; font-weight:600; font-size:20px; margin-top:5px;">
+                Accuracy: <span style="color:black">99.96%</span>
+            </h4>
+          {% elif prediction_result == 4 %}
+            <h3 class="fw-bold mb-3 text-danger" 
+              style="font-size:1.5rem; display:inline-block; animation: slowBlink 1s infinite;">
+              Attack Detected
+            </h3>
+            <div class="alert alert-danger py-4 rounded-3">
+              ⚠️ <strong>User-to-Root (U2R) Attack</strong><br />
+            </div>
+            <h3 style="color:#2c3e50; font-weight:700; font-size:22px; margin-bottom:10px;">
+                Algorithm Used: <span style="color:black;">Random Forest Classifier</span>
+            </h3>
+            <h4 style="color:#34495e; font-weight:600; font-size:20px; margin-top:5px;">
+                Accuracy: <span style="color:black">99.96%</span>
+            </h4>
+
+          {% else %}
+            <div class="alert alert-warning py-4 rounded-3">No result available!. Please try again.</div>
+          {% endif %}
+
+          <!-- Action buttons -->
+          <div class="mt-4">
+            <a href="{% url 'detection_page' %}" class="btn px-4 me-2"> Test Again</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container mt-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-body p-4">
+
+      {% if prediction_result == 1 %}
+        <div class="row align-items-center">
+          <div class="col-md-4 text-center">
+            <img src="{% static "img/safe_img.png" %}" alt="Normal Traffic" class="img-fluid rounded">
+          </div>
+          <div class="col-md-8">
+            <h4 class="fw-bold mb-3 text-success">Attack Details</h4>
+            <div class="alert alert-success py-4 rounded-3">
+              ✅ <strong>Normal Traffic</strong><br>
+              No intrusion detected in this activity.
+            </div>
+          </div>
+        </div>
+
+      {% elif prediction_result == 0 %}
+        <div class="row align-items-center">
+          <div class="col-md-4 text-center">
+            <img src="https://i.pinimg.com/1200x/ea/6d/24/ea6d24f3d4d5a37723192ae2484052b7.jpg" alt="DoS Attack" class="img-fluid rounded">
+          </div>
+          <div class="col-md-8">
+            <h3 class="fw-bold mb-3 text-danger">Attack Details</h3>
+            <div class="alert alert-danger py-4 rounded-3">
+              ⚠️ <strong>Denial of Service (DoS) Attack</strong><br>
+              <p class="mt-2 text-muted">Reason: Attackers flood the network or server with traffic, exhausting resources.</p>
+              <p><strong>Precaution:</strong> Use firewalls, rate-limiting, and intrusion prevention systems.</p>
+              <ul class="mt-2 text-muted">
+                <li>DoS attacks make systems unavailable for real users.</li>
+                <li>Often used as a distraction for bigger cyber attacks.</li>
+                <li>Distributed versions (DDoS) involve multiple machines.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      {% elif prediction_result == 2 %}
+        <div class="row align-items-center">
+          <div class="col-md-4 text-center">
+            <img src="https://i.pinimg.com/1200x/50/c5/34/50c534cff747f00817c3ddf94d9633d5.jpg" alt="Probe Attack" class="img-fluid rounded">
+          </div>
+          <div class="col-md-8">
+            <h3 class="fw-bold mb-3 text-danger">Attack Detaila</h3>
+            <div class="alert alert-danger py-4 rounded-3">
+              ⚠️ <strong>Probe Attack</strong><br>
+              <p class="mt-2 text-muted">Reason: Attackers scan ports and services to find vulnerabilities.</p>
+              <p><strong>Precaution:</strong> Regularly update software, monitor logs, and disable unused services.</p>
+              <ul class="mt-2 text-muted">
+                <li>Probes are usually the first stage before an actual attack.</li>
+                <li>Helps attackers identify weak points in a system.</li>
+                <li>Automated tools make probing faster and harder to detect.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      {% elif prediction_result == 3 %}
+        <div class="row align-items-center">
+          <div class="col-md-4 text-center">
+            <img src="https://i.pinimg.com/736x/3f/7c/7b/3f7c7b6381750f66e03cf31ee8473c96.jpg" alt="R2L Attack" class="img-fluid rounded">
+          </div>
+          <div class="col-md-8">
+            <h3 class="fw-bold mb-3 text-danger">Attack Details</h3>
+            <div class="alert alert-danger py-4 rounded-3">
+              ⚠️ <strong>Remote-to-Local (R2L) Attack</strong><br>
+              <p class="mt-2 text-muted">Reason: Attackers gain unauthorized access from a remote machine.</p>
+              <p><strong>Precaution:</strong> Strong authentication, intrusion detection, and user access controls.</p>
+              <ul class="mt-2 text-muted">
+                <li>R2L attacks exploit weak login credentials or unpatched software.</li>
+                <li>Can lead to theft of sensitive information.</li>
+                <li>Attackers often disguise themselves as legitimate users.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      {% elif prediction_result == 4 %}
+        <div class="row align-items-center">
+          <div class="col-md-4 text-center">
+            <img src="https://i.pinimg.com/736x/5d/47/28/5d47281ec8bab6e2eb1504941a097eb5.jpg" alt="U2R Attack" class="img-fluid rounded">
+          </div>
+          <div class="col-md-8">
+            <h3 class="fw-bold mb-3 text-danger">Attack Details</h3>
+            <div class="alert alert-danger py-4 rounded-3">
+              ⚠️ <strong>User-to-Root (U2R) Attack</strong><br>
+              <p class="mt-2 text-muted">Reason: Attackers escalate from normal user to root/admin privileges.</p>
+              <p><strong>Precaution:</strong> Apply patches, restrict root access, and enable strict privilege separation.</p>
+              <ul class="mt-2 text-muted">
+                <li>U2R attacks are rare but highly dangerous.</li>
+                <li>Attackers can completely take over the system.</li>
+                <li>Common methods: buffer overflows and privilege escalation exploits.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      {% else %}
+        <div class="alert alert-warning py-4 rounded-3">
+          ℹ️ No result available. Please try again.
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+</div>
+
+{% comment %} graph {% endcomment %}
+
+<div class="container my-5">
+  <div class="card shadow-lg rounded-4 p-4">
+    <!-- Title -->
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">😲 Explanation of Detection</h2>
+      <h5 class="text-muted">XAI - SHAP Explanation of Detection</h5>
+    </div>
+
+    <!-- Responsive Layout -->
+    <div class="row align-items-center">
+      <!-- Left side (Image/Graph) -->
+      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0 d-flex justify-content-center">
+        <img src="{% static 'img/result_graph.png' %}" 
+             class="img-fluid rounded-3 shadow-sm" 
+             style="max-width: 100%; height: auto;" 
+             alt="SHAP Explanation Graph">
+      </div>
+
+      <!-- Right side (Content/Explanation) -->
+      <div class="col-lg-6 col-md-12" >
+        <div class="p-3 border-start border-3 border-primary">
+          <h5 class="fw-bold mb-3">SHAP Explanation Output:</h5>
+          <ul class="list-unstyled">
+            <li>📌 Features are sorted by importance (top = most important).</li>
+            <li>🔴 <strong>Red</strong> → Higher feature values increase attack probability.</li>
+            <li>🔵 <strong>Blue</strong> → Lower feature values decrease attack probability.</li>
+            <li>🟣 <strong>Purple</strong> → A mix/overlap of red and blue points (where data samples overlap).</li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} Lime Explanation {% endcomment %}
+
+<div class="container my-5">
+  <div class="card shadow-lg" style="padding: 20px;">
+    <!-- Title -->
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Lime Explanation of Detection</h2>
+      
+    </div>
+
+    <!-- Responsive Layout -->
+    <div class="row align-items-center">
+      <!-- Left side (Image/Graph) -->
+      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0 d-flex justify-content-center">
+        <img src="{% static 'img/lime_img1.png' %}" 
+             class="img-fluid rounded-3 " 
+             style="max-width: 100%; height: auto;" 
+             alt="SHAP Explanation Graph">
+      </div>
+
+      <!-- Right side (Content/Explanation) -->
+      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0 d-flex justify-content-center">
+        <img src="{% static 'img/lime_img2.png' %}" 
+             class="img-fluid rounded-3 " 
+             style="width: 60%;" 
+             alt="SHAP Explanation Graph">
+      </div>
+    </div>
+      <div class="text-center mb-4" style="margin-top: 30px;">
+      <h2 class="fw-bold">Lime Explanation output</h2>
+      <h6 class="text-muted">1) The model predicted Normal Traffic (Class 0) with 100% probability.</h6>
+      <h6 class="text-muted">2) Blue features (Normal indicators) strongly supported the decision.</h6>
+      <h6 class="text-muted">3) Some Orange features (Attack indicators) existed but had weaker influence compared to the strong blue ones.</h6>
+    </div>
+  </div>
+</div>
+
+
+  <style>
+    @keyframes slowBlink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.2; }
+    100% { opacity: 1; }
+    }
+    .card {
+      background: #fff;
+    }
+    .alert {
+      font-size: 1.2rem;
+    }
+    .btn {
+      
+      background: var(--accent-color);
+      color: #fff;
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      transition: 0.3s;
+    }
+    .btn:hover {
+        color: #fff;
+        background: color-mix(in srgb, var(--accent-color), transparent 15%);
+    }
+    @media (max-width: 768px) {
+      .btn {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+      }
+    }
+  </style>
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <script>
+          swal({ title: 'Success!', text: '{{ message }}', icon: 'success', button: 'OK' })
+        </script>
+      {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+        <script>
+          swal({ title: 'Warning!', text: '{{ message }}', icon: 'warning', button: 'OK' })
+        </script>
+      {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+        <script>
+          swal({ title: 'Info!', text: '{{ message }}', icon: 'info', button: 'OK' })
+        </script>
+      {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <script>
+          swal({ title: 'Error!', text: '{{ message }}', icon: 'error', button: 'OK' })
+        </script>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}

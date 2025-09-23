@@ -1,0 +1,88 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+  <style>
+    .container {
+      
+    }
+  </style>
+
+<div class="container-fluid mt-4">
+  <div class="row">
+    <!-- Bigger container: full-width on large screens, centered -->
+    <div class="col-lg-10 col-md-12 col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="text-center mb-4">Comparison Graph</h3>
+          <div style="height:400px;"> <!-- Taller for larger bars -->
+            <canvas id="accuracyChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const labels = {{ labels|safe }};
+  const values = {{ values|safe }};
+
+  const ctx = document.getElementById('accuracyChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Accuracy (%)',
+        data: values,
+        backgroundColor: [
+          '#4caf4f7b', '#5dade27a', '#9c59b677', '#f5b04177',
+          '#d0534583', '#58d68c7a', '#e867597b'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (context) => context.raw + "%"
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Algorithms",   // Horizontal label
+            font: { size: 14, weight: "bold" }
+          },
+          ticks: {
+            maxRotation: 30,   // Tilt labels for readability
+            minRotation: 30
+          }
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          title: {
+            display: true,
+            text: "Accuracy (%)",  // Vertical label
+            font: { size: 14, weight: "bold" }
+          },
+          ticks: {
+            callback: function(value) {
+              return value + "%";
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

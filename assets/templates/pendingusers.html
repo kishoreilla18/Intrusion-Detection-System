@@ -1,0 +1,174 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+    <style>
+        /* Content area */
+      .container1 {
+        margin-left: 260px;
+        margin-top: 80px;
+        width: calc(100% - 250px);
+        transition: margin-left 0.25s ease;
+      }
+      
+      .page-header {
+        margin: 20px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #198754;
+      }
+      
+      .card1 {
+        border-radius: 12px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Table Styling */
+      .table {
+        font-size: 0.9rem;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      
+      .table thead {
+        background-color: #198754;
+        color: white;
+      }
+      
+      .table tbody tr:hover {
+        background-color: #f1f3f5;
+      }
+      
+      .badge-soft {
+        background-color: rgba(25, 135, 84, 0.15);
+        color: #198754;
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+      .badge-hard {
+        background-color: rgba(214, 158, 158, 0.15);
+        color: #ff0000ff;
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+      .badge-pending {
+        background-color: rgba(206, 184, 153, 0.15);
+        color: #e67e10ff;
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+
+      .btn-approve {
+        background-color: #198754;
+        color: white;
+        padding: 5px;
+        border-radius: 6px;
+      }
+      
+      .btn-approve:hover {
+        color: white;
+        background-color: #429c72ff;
+      }
+      
+      .btn-reject {
+        background-color: #dc3545;
+        color: white;
+        padding: 5px;
+        border-radius: 6px;
+      }
+      
+      .btn-reject:hover {
+        color: #f1f3f5;
+        background-color: #c45964ff;
+      }
+      
+      /* Responsive */
+      @media (max-width: 991.98px) {
+        .sidebar {
+          transform: translateX(-100%);
+          width: 240px;
+          padding-top: 56px;
+        }
+      
+        .sidebar.show {
+          transform: translateX(0);
+        }
+      
+        .navbar-brand1 {
+          font-size: 0;
+        }
+      
+        .content,
+        .navbar,
+        .container1 {
+          margin-left: 0 !important;
+          width: 100% !important;
+        }
+      }
+    </style>
+
+    <!-- Page Container -->
+    <div class="container1">
+      <div class="page-header">
+        <h2 class="fw-bold text-success">Pending Users</h2>
+        <p class="text-muted">Review and approve or reject user registrations.</p>
+      </div>
+
+      <!-- Pending Users Table -->
+      <div class="card1 p-3">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-success">
+              <tr>
+                <th>#</th>
+                <th scope="col">Email</th>
+                <th scope="col">Username</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="text-center">⚙ Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td>{{ user.user_email }}</td>
+                  <td class="text- fw-bold">{{ user.user_name }}</td>
+                  <td>{{ user.user_contact }}</td>
+                  {% if user.status == 'accepted' %}
+                    <td>
+                      <span class="badge badge-soft">{{ user.status }}</span>
+                    </td>
+                  {% elif user.status == 'pending' %}
+                    <td>
+                      <span class="badge badge-pending">{{ user.status }}</span>
+                    </td>
+                  {% else %}
+                    <td>
+                      <span class="badge badge-hard">{{ user.status }}</span>
+                    </td>
+                  {% endif %}
+                  <td class="text-center">
+                    <a href="{% url 'update_user_status' user.user_name 'accept' %}" class="btn-approve btn btn-sm px-3 me-2"> Accept</a>
+                    <a href="{% url 'update_user_status' user.user_name 'reject' %}" class="btn-reject btn btn-sm px-3">Reject</a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center text-muted py-3"> No pending users at the moment</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination Buttons -->
+        <div class="d-flex justify-content-between mt-3">
+          <button class="btn btn btn-sm">&laquo; Previous</button>
+          <button class="btn btn btn-sm">Next &raquo;</button>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
