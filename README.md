@@ -3,7 +3,7 @@
 
 This project is a full-stack machine learning–based Intrusion Detection System designed to identify and classify malicious network activities with high accuracy. It leverages Python, Django, Random Forest Classifier, and visualization tools to provide both real-time intrusion detection and explainability for predictions.
 
-🚀 Key Features
+🚀 Key Features:
 
 Attack Classification → Detects and classifies traffic into:
 
