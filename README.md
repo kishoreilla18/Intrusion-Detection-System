@@ -27,7 +27,7 @@ Visualization → Attack graphs showing accuracy metrics and feature importance.
 
 Security Insights → Provides reason for each attack type and recommended precautions for prevention.
 
-🛠️ Tech Stack
+🛠️ Tech Stack:
 
 Programming Language: Python
 
