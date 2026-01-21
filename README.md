@@ -41,7 +41,7 @@ Database: SQLite / MySQL
 
 Visualization: Matplotlib, SHAP, LIME
 
-📊 Example Outputs
+📊 Example Outputs:
 
 Real-time prediction results with attack type, reason, and suggested precautions
 
