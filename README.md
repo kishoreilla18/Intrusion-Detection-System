@@ -49,7 +49,7 @@ SHAP plots (feature impact visualization)
 
 LIME explanations (local model interpretation)
 
-🎯 Project Goal
+🎯 Project Goal:
 
 To build a secure and explainable Intrusion Detection System that not only detects attacks but also helps network administrators understand the cause and take preventive actions.
 
